@@ -47,7 +47,7 @@ pub fn solve2(input: &str) -> usize {
             Direction::Forward(x) => {
                 horizontal += x;
                 depth += aim * x;
-            },
+            }
             Direction::Down(x) => aim += x,
             Direction::Up(x) => aim -= x,
         };
