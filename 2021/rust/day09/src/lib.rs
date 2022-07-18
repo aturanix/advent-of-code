@@ -11,7 +11,7 @@ fn left(i: usize, j: usize) -> Option<(usize, usize)> {
     j.checked_sub(1).map(|j| (i, j))
 }
 
-fn right(values: &Vec<Vec<u8>>, i: usize, j: usize) -> Option<(usize, usize)> {
+fn right(values: &[Vec<u8>], i: usize, j: usize) -> Option<(usize, usize)> {
     j.checked_add(1)
         .filter(|j| *j < values[i].len())
         .map(|j| (i, j))
@@ -21,7 +21,7 @@ fn up(i: usize, j: usize) -> Option<(usize, usize)> {
     i.checked_sub(1).map(|i| (i, j))
 }
 
-fn down(values: &Vec<Vec<u8>>, i: usize, j: usize) -> Option<(usize, usize)> {
+fn down(values: &[Vec<u8>], i: usize, j: usize) -> Option<(usize, usize)> {
     i.checked_add(1)
         .filter(|i| *i < values.len())
         .map(|i| (i, j))

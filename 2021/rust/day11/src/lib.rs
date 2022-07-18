@@ -9,7 +9,7 @@ fn left(i: usize, j: usize) -> Option<(usize, usize)> {
     j.checked_sub(1).map(|j| (i, j))
 }
 
-fn right(values: &Vec<Vec<u8>>, i: usize, j: usize) -> Option<(usize, usize)> {
+fn right(values: &[Vec<u8>], i: usize, j: usize) -> Option<(usize, usize)> {
     j.checked_add(1)
         .filter(|j| *j < values[i].len())
         .map(|j| (i, j))
@@ -19,13 +19,13 @@ fn up(i: usize, j: usize) -> Option<(usize, usize)> {
     i.checked_sub(1).map(|i| (i, j))
 }
 
-fn down(values: &Vec<Vec<u8>>, i: usize, j: usize) -> Option<(usize, usize)> {
+fn down(values: &[Vec<u8>], i: usize, j: usize) -> Option<(usize, usize)> {
     i.checked_add(1)
         .filter(|i| *i < values.len())
         .map(|i| (i, j))
 }
 
-fn flash(values: &mut Vec<Vec<u8>>, flashes: &mut Vec<Vec<bool>>, i: usize, j: usize) {
+fn flash(values: &mut [Vec<u8>], flashes: &mut [Vec<bool>], i: usize, j: usize) {
     if flashes[i][j] {
         return;
     }
@@ -71,7 +71,7 @@ fn flash(values: &mut Vec<Vec<u8>>, flashes: &mut Vec<Vec<bool>>, i: usize, j: u
     }
 }
 
-fn step(values: &mut Vec<Vec<u8>>, flashes: &mut Vec<Vec<bool>>) {
+fn step(values: &mut [Vec<u8>], flashes: &mut [Vec<bool>]) {
     for i in 0..values.len() {
         for j in 0..values[i].len() {
             flash(values, flashes, i, j);
