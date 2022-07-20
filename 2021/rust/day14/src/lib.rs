@@ -64,18 +64,12 @@ fn parse_values(input: &str) -> (&str, HashMap<u8, usize>, HashMap<&str, usize>,
     let mut pairs_count: HashMap<&str, usize> = pairs.iter().map(|x| (*x, 0)).collect();
     for pair in template.as_bytes().windows(2) {
         let pair = unsafe { std::str::from_utf8_unchecked(pair) };
-        if let Some(x) = pairs_count.get_mut(pair) {
-            *x += 1;
-        }
+        pairs_count.entry(pair).and_modify(|x| *x += 1);
     }
 
     let mut elements_count: HashMap<u8, usize> = HashMap::new();
     for b in template.bytes() {
-        if let Some(x) = elements_count.get_mut(&b) {
-            *x += 1;
-        } else {
-            elements_count.insert(b, 1);
-        }
+        elements_count.entry(b).and_modify(|x| *x += 1).or_insert(1);
     }
 
     (
@@ -86,10 +80,10 @@ fn parse_values(input: &str) -> (&str, HashMap<u8, usize>, HashMap<&str, usize>,
     )
 }
 
-fn insert(
-    pairs_count: &mut HashMap<&str, usize>,
+fn insert<'a>(
+    pairs_count: &mut HashMap<&'a str, usize>,
     elements_count: &mut HashMap<u8, usize>,
-    pairs: &Pairs,
+    pairs: &'a Pairs,
 ) {
     let current_pairs: Vec<&str> = pairs_count
         .iter()
@@ -102,44 +96,36 @@ fn insert(
 
     for pair in current_pairs {
         let &pair_count = pairs_count.get(pair).unwrap();
-        if let Some(x) = to_decrement.get_mut(pair) {
-            *x += pair_count;
-        } else {
-            to_decrement.insert(pair, pair_count);
-        }
+        to_decrement
+            .entry(pair)
+            .and_modify(|x| *x += pair_count)
+            .or_insert(pair_count);
 
         let element = pairs.element(pair);
-        if let Some(x) = elements_count.get_mut(&element) {
-            *x += pair_count;
-        } else {
-            elements_count.insert(element, pair_count);
-        }
+        elements_count
+            .entry(element)
+            .and_modify(|x| *x += pair_count)
+            .or_insert(pair_count);
 
         let (left, right) = pairs.two_pairs(pair);
 
-        if let Some(x) = to_increment.get_mut(left) {
-            *x += pair_count;
-        } else {
-            to_increment.insert(left, pair_count);
-        }
+        to_increment
+            .entry(left)
+            .and_modify(|x| *x += pair_count)
+            .or_insert(pair_count);
 
-        if let Some(x) = to_increment.get_mut(right) {
-            *x += pair_count;
-        } else {
-            to_increment.insert(right, pair_count);
-        }
+        to_increment
+            .entry(right)
+            .and_modify(|x| *x += pair_count)
+            .or_insert(pair_count);
     }
 
     for (k, v) in to_increment.into_iter() {
-        if let Some(x) = pairs_count.get_mut(k) {
-            *x += v;
-        }
+        pairs_count.entry(k).and_modify(|x| *x += v);
     }
 
     for (k, v) in to_decrement.into_iter() {
-        if let Some(x) = pairs_count.get_mut(k) {
-            *x -= v;
-        }
+        pairs_count.entry(k).and_modify(|x| *x -= v);
     }
 }
 
