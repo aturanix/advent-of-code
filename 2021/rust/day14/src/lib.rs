@@ -51,7 +51,7 @@ impl Pairs<'_> {
 }
 
 fn parse_values(input: &str) -> (&str, HashMap<u8, usize>, HashMap<&str, usize>, Pairs) {
-    let mut iter = input.split_terminator('\n');
+    let mut iter = input.lines();
 
     let template = iter.by_ref().next().unwrap();
     let (pairs, elements): (Vec<&str>, Vec<u8>) = iter

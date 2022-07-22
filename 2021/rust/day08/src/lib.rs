@@ -8,7 +8,7 @@ fn parse_input_output(input: &str) -> Option<(&str, &str)> {
 
 fn parse_values(input: &str) -> Vec<(&str, &str)> {
     input
-        .split_terminator('\n')
+        .lines()
         .filter_map(|x| parse_input_output(x.trim_end()))
         .collect()
 }

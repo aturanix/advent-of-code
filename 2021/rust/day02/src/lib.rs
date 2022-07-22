@@ -18,10 +18,7 @@ fn parse_direction(s: &str) -> Option<Direction> {
 }
 
 fn parse_values(input: &str) -> Vec<Direction> {
-    input
-        .split_terminator('\n')
-        .filter_map(parse_direction)
-        .collect()
+    input.lines().filter_map(parse_direction).collect()
 }
 
 pub fn solve1(input: &str) -> usize {

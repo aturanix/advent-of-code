@@ -2,7 +2,7 @@ use std::collections::{BinaryHeap, HashSet};
 
 fn parse_values(input: &str) -> Vec<Vec<u8>> {
     input
-        .split_terminator('\n')
+        .lines()
         .map(|x| x.bytes().map(|x| x - b'0').collect())
         .collect()
 }

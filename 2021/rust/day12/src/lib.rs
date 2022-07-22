@@ -18,7 +18,7 @@ fn parse_values(input: &str) -> HashMap<&str, Vec<&str>> {
         }
     };
 
-    for (from, to) in input.split_terminator('\n').filter_map(parse_pair) {
+    for (from, to) in input.lines().filter_map(parse_pair) {
         match (from, to) {
             ("start", _) | (_, "end") => insert_pair(from, to),
             (_, "start") | ("end", _) => insert_pair(to, from),

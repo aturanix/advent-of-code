@@ -70,10 +70,7 @@ fn parse_pair(s: &str) -> Option<Line> {
 }
 
 fn parse_values(input: &str) -> Vec<Line> {
-    input
-        .split_terminator('\n')
-        .filter_map(parse_pair)
-        .collect()
+    input.lines().filter_map(parse_pair).collect()
 }
 
 fn overlap_count(values: Vec<Line>) -> usize {

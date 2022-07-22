@@ -24,7 +24,7 @@ fn parse_fold(s: &str) -> Option<Fold> {
 }
 
 fn parse_values(input: &str) -> (Vec<(usize, usize)>, Vec<Fold>) {
-    let mut iter = input.split_terminator('\n');
+    let mut iter = input.lines();
     let points = iter.by_ref().map_while(parse_point).collect();
     let folds = iter.filter_map(parse_fold).collect();
     (points, folds)

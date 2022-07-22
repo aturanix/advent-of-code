@@ -1,5 +1,5 @@
 fn parse_values(input: &str) -> Vec<&str> {
-    input.split_terminator('\n').collect()
+    input.lines().collect()
 }
 
 pub fn solve1(input: &str) -> usize {
